@@ -1,6 +1,7 @@
 ---
 - hosts: all
-  sudo: true
+  become: true
+  become_method: sudo
   tasks:
     - name: updates a server
       apt: update_cache=yes
