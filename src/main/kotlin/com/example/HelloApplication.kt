@@ -4,11 +4,11 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-class DemoApplication {
+class HelloApplication {
 
     companion object {
         @JvmStatic fun main(args: Array<String>) {
-            SpringApplication.run(DemoApplication::class.java, *args)
+            SpringApplication.run(HelloApplication::class.java, *args)
         }
     }
 }

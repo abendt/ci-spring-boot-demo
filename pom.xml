@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>concourse-maven-spring-boot</artifactId>
+    <artifactId>maven-spring-boot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>demo</name>
@@ -20,13 +20,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <kotlin.version>1.1.2-2</kotlin.version>
-
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <dependency>
@@ -43,8 +47,22 @@
 
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
+            <artifactId>kotlin-test-junit</artifactId>
             <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.wuerl.kotlin</groupId>
+            <artifactId>assertj-core-kotlin</artifactId>
+            <version>0.2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>3.0.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -73,7 +91,6 @@
                         <!-- Or "spring" for the Spring support -->
                         <plugin>spring</plugin>
                     </compilerPlugins>
-
                 </configuration>
 
                 <executions>
@@ -108,26 +125,90 @@
             </plugin>
 
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.20.1</version>
+
+                <configuration>
+                    <verbose>true</verbose>
+                    <showLogs>true</showLogs>
+
+                    <images>
+                        <image>
+                            <name>ci-demo</name>
+                            <alias>ci-demo</alias>
+
+                            <build>
+                                <from>java:8</from>
+
+                                <assembly>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+
+                                <runCmds>
+                                    <run>ls /maven</run>
+                                </runCmds>
+
+                                <cmd>
+                                    <shell>java -jar /maven/maven-spring-boot-0.0.1-SNAPSHOT.jar</shell>
+                                </cmd>
+                            </build>
+
+                            <run>
+                                <namingStrategy>alias</namingStrategy>
+
+                                <ports>
+                                    <port>8080:8080</port>
+                                </ports>
+
+                                <wait>
+                                    <http>
+                                        <url>http://localhost:8080/health</url>
+                                    </http>
+
+                                    <time>10000</time>
+                                </wait>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
 
                 <executions>
                     <execution>
-                        <id>compile</id>
-
-                        <phase>compile</phase>
+                        <id>start-docker</id>
+                        <phase>pre-integration-test</phase>
 
                         <goals>
-                            <goal>compile</goal>
+                            <goal>build</goal>
+                            <goal>start</goal>
                         </goals>
                     </execution>
 
                     <execution>
-                        <id>testCompile</id>
-
-                        <phase>test-compile</phase>
+                        <id>stop-docker</id>
+                        <phase>post-integration-test</phase>
 
                         <goals>
-                            <goal>testCompile</goal>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.20</version>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
                     </execution>
                 </executions>

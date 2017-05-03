@@ -1,0 +1,18 @@
+<configuration debug="true">
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+
+        <encoder>
+            <pattern>%highlight(%.-1level) %date{HH:mm:ss.SSS} [%30.30logger] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org" level="WARN" />
+
+    <root>
+        <level value="DEBUG" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>
