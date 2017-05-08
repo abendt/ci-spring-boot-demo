@@ -15,3 +15,4 @@ run:
 
 params:
   MAVEN_BASEDIR: source-code
+  DOCKER_HOST_ http://10.0.2.15:4243
