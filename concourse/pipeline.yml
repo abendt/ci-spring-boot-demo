@@ -2,7 +2,7 @@ resources:
   - name: source-code
     type: git
     source:
-      uri: https://github.com/spilth/concourse-maven-spring-boot.git
+      uri: https://github.com/abendt/ci-spring-boot-demo.git
       branch: master
 
 jobs:

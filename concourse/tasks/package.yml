@@ -3,7 +3,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: sonarqube
+    repository: openjdk/8-jdk
     tag: latest
 
 inputs:
@@ -11,7 +11,7 @@ inputs:
 
 run:
   path: "source-code/mvnw"
-  args: ["-f", "source-code/pom.xml", "package"]
+  args: ["-f", "source-code/pom.xml", "verify"]
 
 params:
   MAVEN_BASEDIR: source-code
