@@ -1,4 +1,7 @@
+import groovy.json.JsonSlurper
+
 def dockerHost = project.properties['dockerHost']
+def dockerUrl = "http://$dockerHost:4243"
 
 if (dockerHost == '127.0.0.1') {
     println("local docker")
@@ -7,7 +10,9 @@ if (dockerHost == '127.0.0.1') {
 } else {
     println("remote docker")
 
-    def baseUrl = new URL("http://" + dockerHost + ":4243/containers/ci-demo?force=true")
+    println listContainers()
+
+    def baseUrl = new URL("$dockerUrl/containers/ci-demo?force=true")
 
     def connection = baseUrl.openConnection()
 
@@ -17,10 +22,24 @@ if (dockerHost == '127.0.0.1') {
             requestMethod = 'DELETE'
             println content.text
         }
-    } catch (Exception e) {
+    } catch (F e) {
         e.printStackTrace()
 
         throw e
     }
 }
 
+def listContainers() {
+    def baseUrl = new URL("$dockerUrl/containers/json")
+
+    def connection = baseUrl.openConnection()
+    def result
+
+    connection.with {
+        doOutput = true
+        requestMethod = 'GET'
+        result = new JsonSlurper().parseText(content.text)
+    }
+
+    return result
+}
