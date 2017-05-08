@@ -10,10 +10,17 @@ if (dockerHost == '127.0.0.1') {
     def baseUrl = new URL("http://" + dockerHost + ":4243/containers/ci-demo?force=true")
 
     def connection = baseUrl.openConnection()
-    connection.with {
-        doOutput = true
-        requestMethod = 'DELETE'
-        println content.text
+
+    try {
+        connection.with {
+            doOutput = true
+            requestMethod = 'DELETE'
+            println content.text
+        }
+    } catch (Exception e) {
+        e.getCause().printStackTrace()
+
+        throw e
     }
 }
 
