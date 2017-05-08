@@ -20,7 +20,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <kotlin.version>1.1.2-2</kotlin.version>
+        <docker.host>127.0.0.1</docker.host>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>ci</id>
+
+            <properties>
+                <docker.host>10.0.2.15</docker.host>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -167,7 +178,7 @@
 
                                 <wait>
                                     <http>
-                                        <url>http://localhost:18080/health</url>
+                                        <url>http://${docker.host}:18080/health</url>
                                     </http>
 
                                     <time>10000</time>
@@ -203,6 +214,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.20</version>
+
+                <configuration>
+                    <systemPropertyVariables>
+                        <dockerHost>${docker.host}</dockerHost>
+                    </systemPropertyVariables>
+                </configuration>
 
                 <executions>
                     <execution>

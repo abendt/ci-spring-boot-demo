@@ -7,7 +7,9 @@ import org.junit.Test
 
 class HelloIT {
 
-    val url = "http://localhost:8080"
+    val host = System.getProperty("dockerHost", "localhost")
+
+    val url = "http://$host:8080"
 
     @Test
     fun getHello() {
