@@ -62,7 +62,6 @@ def remoteStopContainer() {
     connection.with {
         doOutput = true
         requestMethod = 'DELETE'
-        println content.text
     }
 }
 
