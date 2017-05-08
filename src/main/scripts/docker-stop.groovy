@@ -1,12 +1,23 @@
 import groovy.json.JsonSlurper
 
-def dockerHost = project.properties['dockerHost']
-def dockerUrl = "http://$dockerHost:4243"
+import java.sql.DriverManager
+
+dockerHost = project.properties['dockerHost']
+dockerUrl = "http://$dockerHost:4243"
+
+URLConnection connectTo(String urlString) {
+    def url = new URL(urlString)
+
+    def connection = url.openConnection()
+    connection.setConnectTimeout(2000)
+    connection.setReadTimeout(2000)
+
+    connection
+}
 
 def listContainers() {
-    def baseUrl = new URL("$dockerUrl/containers/json")
+    def connection = connectTo("$dockerUrl/containers/json")
 
-    def connection = baseUrl.openConnection()
     def result
 
     connection.with {
@@ -15,36 +26,44 @@ def listContainers() {
         result = new JsonSlurper().parseText(content.text)
     }
 
-    return result
+    result
 }
 
 def stopContainer() {
     if (dockerHost == '127.0.0.1') {
-        println("local docker")
-
-        println "docker rm -f ci-demo".execute().text
+        localStopContainer()
     } else {
-        println("remote docker")
+        remoteStopContainer()
+    }
+}
 
-        println listContainers()
+def localStopContainer() {
+    println("local docker")
 
-        def baseUrl = new URL("$dockerUrl/containers/ci-demo?force=true")
+    println "docker rm -f ci-demo".execute().text
+}
 
-        def connection = baseUrl.openConnection()
+def remoteStopContainer() {
+    println("remote docker")
 
-        try {
-            connection.with {
-                doOutput = true
-                requestMethod = 'DELETE'
-                println content.text
-            }
-        } catch (Exception e) {
-            e.printStackTrace()
+    def containers = listContainers()
+    def names = containers.collectMany { it['Names'] }
 
-            throw e
-        }
+    println(names)
+
+    if (!names.contains("/ci-demo")) {
+        return
+    }
+
+    println 'remove previous ci-demo container'
+
+    def connection = connectTo("$dockerUrl/containers/ci-demo?force=true")
+
+    connection.with {
+        doOutput = true
+        requestMethod = 'DELETE'
+        println content.text
     }
 }
 
 stopContainer()
-

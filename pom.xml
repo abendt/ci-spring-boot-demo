@@ -143,9 +143,11 @@
                 <executions>
                     <execution>
                         <phase>pre-integration-test</phase>
+
                         <goals>
                             <goal>execute</goal>
                         </goals>
+
                         <configuration>
                             <scripts>
                                 <script>file:///${project.basedir}/src/main/scripts/docker-stop.groovy</script>
