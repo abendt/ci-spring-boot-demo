@@ -146,7 +146,7 @@
                                 </assembly>
 
                                 <ports>
-                                    <port>8080</port>
+                                    <port>18080</port>
                                 </ports>
 
                                 <runCmds>
@@ -162,12 +162,12 @@
                                 <namingStrategy>alias</namingStrategy>
 
                                 <ports>
-                                    <port>8080:8080</port>
+                                    <port>18080:8080</port>
                                 </ports>
 
                                 <wait>
                                     <http>
-                                        <url>http://localhost:8080/health</url>
+                                        <url>http://localhost:18080/health</url>
                                     </http>
 
                                     <time>10000</time>
