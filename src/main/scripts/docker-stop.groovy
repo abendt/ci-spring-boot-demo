@@ -18,7 +18,7 @@ if (dockerHost == '127.0.0.1') {
             println content.text
         }
     } catch (Exception e) {
-        e.getCause().printStackTrace()
+        e.printStackTrace()
 
         throw e
     }
