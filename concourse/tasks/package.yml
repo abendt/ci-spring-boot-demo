@@ -11,7 +11,7 @@ inputs:
 
 run:
   path: "source-code/mvnw"
-  args: ["-f", "source-code/pom.xml", "verify"]
+  args: ["-Pci",  "-f", "source-code/pom.xml", "verify"]
 
 params:
   MAVEN_BASEDIR: source-code
