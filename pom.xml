@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <kotlin.version>1.1.2-2</kotlin.version>
-        <docker.host>127.0.0.1</docker.host>
+        <dockerHost>127.0.0.1</dockerHost>
     </properties>
 
     <profiles>
@@ -28,7 +28,7 @@
             <id>ci</id>
 
             <properties>
-                <docker.host>10.0.2.15</docker.host>
+                <dockerHost>10.0.2.15</dockerHost>
             </properties>
         </profile>
     </profiles>
@@ -178,7 +178,7 @@
 
                                 <wait>
                                     <http>
-                                        <url>http://${docker.host}:18080/health</url>
+                                        <url>http://${dockerHost}:18080/health</url>
                                     </http>
 
                                     <time>10000</time>
@@ -217,7 +217,7 @@
 
                 <configuration>
                     <systemPropertyVariables>
-                        <dockerHost>${docker.host}</dockerHost>
+                        <dockerHost>${dockerHost}</dockerHost>
                     </systemPropertyVariables>
                 </configuration>
 

@@ -1,24 +1,31 @@
 package com.example
 
-import io.restassured.RestAssured.`when`
+import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import org.hamcrest.Matchers.equalTo
+import org.junit.Before
 import org.junit.Test
 
 class HelloIT {
 
-    val host = System.getProperty("dockerHost", "localhost")
+    @Before
+    fun setup() {
+        val host = System.getProperty("dockerHost", "localhost")
 
-    val url = "http://$host:8080"
+        val url = "http://$host"
+
+        RestAssured.port = 18080
+        RestAssured.baseURI = url
+    }
 
     @Test
     fun getHello() {
-        given().basePath(url)
+        given().
                 `when`().
                 get("/").
                 then().
                 statusCode(200).
-                body(equalTo("Hello World"))
+                body(equalTo("Hello Spring Boot!"))
     }
 }
 
