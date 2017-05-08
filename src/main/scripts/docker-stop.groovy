@@ -1,4 +1,4 @@
-def dockerHost = properties['dockerHost']
+def dockerHost = project.properties['dockerHost']
 
 if (dockerHost == '127.0.0.1') {
     println("local docker")
