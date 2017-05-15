@@ -1,7 +1,5 @@
 import groovy.json.JsonSlurper
 
-import java.sql.DriverManager
-
 dockerHost = project.properties['dockerHost']
 dockerUrl = "http://$dockerHost:4243"
 

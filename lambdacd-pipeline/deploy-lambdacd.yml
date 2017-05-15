@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: ensure that there is a folder to install the pipeline in
+      file: path=/opt/pipeline state=directory
+      sudo: true
+
+    - name: ensure that the initial pipeline is present
+      copy: src=target/lambdacd-pipeline-0.1.0-SNAPSHOT-standalone.jar dest=/opt/pipeline/pipeline-0-standalone.jar
+      sudo: true
+
+    - name: ensure that upstart configuration is present
+      copy: src=lambdacd.service dest=/lib/systemd/system/lambdacd.service mode=755
+      sudo: true
+
+    - name: restart pipeline
+      systemd: name=lambdacd state=restarted enabled=true
+      async: 45
+      poll: 5

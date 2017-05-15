@@ -1,0 +1,10 @@
+[Unit]
+Description=LambdaCD Pipeline
+
+[Service]
+ExecStart=java -jar /opt/pipeline/pipeline-0-standalone.jar
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
+Alias=lambdacd.service
