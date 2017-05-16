@@ -6,7 +6,7 @@ pipelines:
     group: gocd-yaml
 
     materials:
-      mygit:
+      github:
         git: https://github.com/abendt/ci-spring-boot-demo.git
 
     stages:
