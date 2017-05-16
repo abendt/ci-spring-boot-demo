@@ -3,7 +3,7 @@
 
 pipelines:
   mypipe:
-    group: mygroup
+    group: gocd-yaml
 
     materials:
       mygit:
@@ -13,9 +13,6 @@ pipelines:
       - build:
           jobs:
             build:
-#              environment_variables:
-#                DOCKER_HOST: tcp://10.0.2.15:2375
-
               artifacts:
                 - test:
                     source: target/surefire-reports
