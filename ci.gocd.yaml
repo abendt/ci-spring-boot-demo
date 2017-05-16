@@ -19,10 +19,6 @@ pipelines:
               artifacts:
                 - test:
                   source: target/surefire-reports
-
-                - test:
-                  source: target/failsafe-reports
-
               tasks:
                - exec:
                    command: /bin/sh
