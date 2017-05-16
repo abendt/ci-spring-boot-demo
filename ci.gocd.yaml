@@ -1,10 +1,3 @@
-environments:
-  example:
-    environment_variables:
-      DOCKER_HOST: tcp://10.0.2.15:2375
-    pipelines:
-      - yaml-example
-
 pipelines:
   mypipe:
     group: mygroup
@@ -17,6 +10,8 @@ pipelines:
       - build:
           jobs:
             build:
+              environment_variables:
+                DOCKER_HOST: tcp://10.0.2.15:2375
               tasks:
                - exec:
                    command: /bin/sh
