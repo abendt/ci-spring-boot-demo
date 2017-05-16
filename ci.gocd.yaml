@@ -1,0 +1,23 @@
+environments:
+  example:
+    environment_variables:
+      DOCKER_HOST: tcp://10.0.2.15:2375
+    pipelines:
+      - yaml-example
+
+pipelines:
+  mypipe:
+    materials:
+      mygit:
+        git: https://github.com/abendt/ci-spring-boot-demo.git
+
+    stages:
+      - build:
+          jobs:
+            build:
+              tasks:
+               - exec:
+                   command: /bin/sh
+                   arguments:
+                    - mvnw
+                    - verify
