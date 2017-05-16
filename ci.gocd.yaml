@@ -16,6 +16,10 @@ pipelines:
 #              environment_variables:
 #                DOCKER_HOST: tcp://10.0.2.15:2375
 
+              artifacts:
+                - test:
+                    source: target/surefire-reports
+
               tasks:
                - exec:
                    command: /bin/sh
