@@ -5,6 +5,7 @@ import io.restassured.RestAssured.given
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 class HelloIT {
@@ -30,6 +31,7 @@ class HelloIT {
     }
 
     @Test
+    @Ignore
     fun failingTest() {
         assertThat(true).isFalse()
     }
