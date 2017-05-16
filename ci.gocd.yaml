@@ -7,6 +7,8 @@ environments:
 
 pipelines:
   mypipe:
+    group: mygroup
+
     materials:
       mygit:
         git: https://github.com/abendt/ci-spring-boot-demo.git
