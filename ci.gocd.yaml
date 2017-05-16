@@ -1,3 +1,6 @@
+# https://github.com/tomzo/gocd-yaml-config-plugin
+# https://github.com/tomzo/gocd-yaml-config-example
+
 pipelines:
   mypipe:
     group: mygroup
@@ -12,6 +15,7 @@ pipelines:
             build:
               environment_variables:
                 DOCKER_HOST: tcp://10.0.2.15:2375
+
               tasks:
                - exec:
                    command: /bin/sh
