@@ -13,8 +13,8 @@ pipelines:
       - build:
           jobs:
             build:
-              environment_variables:
-                DOCKER_HOST: tcp://10.0.2.15:2375
+#              environment_variables:
+#                DOCKER_HOST: tcp://10.0.2.15:2375
 
               tasks:
                - exec:
