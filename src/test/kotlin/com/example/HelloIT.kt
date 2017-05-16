@@ -2,6 +2,7 @@ package com.example
 
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
+import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Before
 import org.junit.Test
@@ -26,6 +27,11 @@ class HelloIT {
                 then().
                 statusCode(200).
                 body(equalTo("Hello Spring Boot!"))
+    }
+
+    @Test
+    fun failingTest() {
+        assertThat(true).isFalse()
     }
 }
 
