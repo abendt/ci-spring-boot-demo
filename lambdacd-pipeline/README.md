@@ -2,9 +2,14 @@
 
 A continuous delivery pipeline for FIXME
 
+## Dependencies
+
+* mongodb
+    * local testing: `docker run --name some-mongo -p 27017:27017 -d mongo`
+
 ## Usage
 
-* `lein run` will start your pipeline with a web-ui listening on port 8080
+* `lein run` will start your pipeline with a web-ui listening on port 8090
 
 ## Files
 
